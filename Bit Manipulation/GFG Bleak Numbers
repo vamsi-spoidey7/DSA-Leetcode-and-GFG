@@ -1,0 +1,26 @@
+GFG Link : https://practice.geeksforgeeks.org/problems/bleak-numbers1552/1
+
+here i + countBits(i) = n
+max count bits = 32 so the range of i will be [i-32,i-1]
+
+class Solution
+{
+public:
+    int countSetBits(int n){
+        int count = 0;
+        while(n){
+            count++;
+            n = n & (n-1);
+        }
+        return count;
+    }
+	int is_bleak(int n)
+	{
+	    // Code here.
+	    for(int i=max(n-32,1);i<=n;i++){
+	        if(i+countSetBits(i)==n)
+	            return false;
+	    }
+	    return true;
+	}
+};
