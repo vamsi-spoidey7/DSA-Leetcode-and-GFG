@@ -1,0 +1,32 @@
+minimum insertions is length - longest Palindromic Subsequence length
+
+class Solution {
+public:
+    int longestPalinSubseq(string s1) {
+        //code here
+        // your code here
+        int n = s1.length();
+        int m = n;
+        vector<int> prev(m+1,0);
+        //base case
+        string s2 = s1;
+        reverse(s1.begin(),s1.end());
+        for(int i=0;i<m;i++)
+            prev[i] = 0;
+        
+        for(int i=1;i<=n;i++){
+            vector<int> curr(m+1,0);
+            for(int j=1;j<=m;j++){
+                if(s1[i-1]==s2[j-1])
+                    curr[j] = 1 + prev[j-1];
+                else
+                    curr[j] = max(prev[j],curr[j-1]);
+            }
+            prev = curr;
+        }
+        return prev[m];
+    }
+    int minInsertions(string s) {
+        return s.length()-longestPalinSubseq(s);
+    }
+};
