@@ -1,0 +1,39 @@
+GFG Link : https://www.geeksforgeeks.org/problems/frequency-of-array-elements-1587115620/1
+
+Brute Force using the hashmap or array
+
+class Solution{
+    public:
+    //Function to count the frequency of all elements from 1 to N in the array.
+    void frequencyCount(vector<int>& arr,int N, int P)
+    { 
+        // code here
+        int freq[N+1] = {0};
+        for(int i=0;i<N;i++){
+            if(arr[i]<=N)
+                freq[arr[i]]++;
+        }
+        for(int i=0;i<N;i++)
+            arr[i] = freq[i+1];
+    }
+};
+
+Optimal Solution
+
+class Solution{
+    public:
+    //Function to count the frequency of all elements from 1 to N in the array.
+    void frequencyCount(vector<int>& arr,int N, int P)
+    { 
+        // code here
+        P++;
+        for(int i=0;i<N;i++){
+            int ind = arr[i]%P - 1;
+            if(ind>=0 && ind<N)
+                arr[ind] += P;
+        }
+        for(int i=0;i<N;i++){
+            arr[i] /= P;
+        }
+    }
+};
