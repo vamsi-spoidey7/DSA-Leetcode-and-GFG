@@ -67,3 +67,31 @@ public:
         return false;
 	}
 };
+
+Much better Solution:
+Time Complexity: O(n+max(Arr[i])^2)
+Auxiliary Space: O(max(Arr[i]))
+
+class Solution{
+public:
+	bool checkTriplet(int arr[], int n) {
+	    // code here
+	    int maxi = *max_element(arr,arr+n);
+	    int exists[maxi+1] = {0};
+	    for(int i=0;i<n;i++)
+	        exists[arr[i]]++;
+	    for(int i=1;i<=maxi;i++){
+	        if(exists[i]==0) continue;
+	        for(int j=1;j<=maxi;j++){
+	            if(exists[j]==0 || i==j) continue;
+	            int hyp_square = i*i + j*j;
+	            int hyp = sqrt(hyp_square);
+	            if(hyp>maxi || hyp*hyp!=hyp_square)
+	                continue;
+	            if(exists[hyp]>0)
+	                return true;
+	        }
+	    }
+	    return false;
+	}
+};
