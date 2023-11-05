@@ -1,0 +1,60 @@
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+
+        priority_queue< pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pq;
+        unordered_map<int,int> mp;
+        for(int num:nums){
+            mp[num]++;
+        }
+        for(auto numFreq:mp){
+            int num = numFreq.first;
+            int freq = numFreq.second;
+            if(pq.size()<k)
+                pq.push({freq,num});
+            else if(freq>pq.top().first){
+                pq.pop();
+                pq.push({freq,num});
+            }
+        }
+        vector<int> ans;
+        while(!pq.empty()){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        return ans;
+    }
+};
+
+GFG Link : https://www.geeksforgeeks.org/problems/top-k-frequent-elements-in-array/1
+
+class Solution {
+  public:
+    struct comporator {
+        bool operator()(pair<int,int> &below,pair<int,int> &above){
+            if(below.first < above.first)
+                return true;
+            else if(below.first==above.first && below.second < above.second)
+                return true;
+            return false;
+        }
+    };
+    vector<int> topK(vector<int>& nums, int k) {
+        // Code here
+        priority_queue<pair<int,int>,vector<pair<int,int>>,comporator> pq;
+        unordered_map<int,int> mp;
+        for(int i=0;i<nums.size();i++)
+            mp[nums[i]]++;
+        for(auto numFreq:mp){
+            int num = numFreq.first;
+            int freq = numFreq.second;
+            pq.push({freq,num});
+        }
+        vector<int> ans;
+        for(int i=0;i<k;i++){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        return ans;
+    }
+};
