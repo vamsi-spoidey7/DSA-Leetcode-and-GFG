@@ -1,0 +1,24 @@
+GFG Link : https://www.geeksforgeeks.org/problems/sum-of-upper-and-lower-triangles-1587115621/1
+
+class Solution
+{   
+    public:
+    vector<int> sumTriangles(const vector<vector<int> >& matrix, int n)
+    {
+        // code here
+        int upperSum = 0;
+        int lowerSum = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(j>=i)
+                    upperSum += matrix[i][j];
+                if(j<=i)
+                    lowerSum += matrix[i][j];
+            }
+        }
+        
+        vector<int> ans = {upperSum,lowerSum};
+        return ans;
+    }
+};
+
