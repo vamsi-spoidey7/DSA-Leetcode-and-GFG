@@ -1,0 +1,21 @@
+GFG Link : https://www.geeksforgeeks.org/problems/print-matrix-in-snake-pattern-1587115621/1
+
+class Solution
+{   
+    public:
+    vector<int> snakePattern(vector<vector<int> > matrix)
+    {   
+        // code here
+        vector<int> ans;
+        int n = matrix.size();
+        bool rightToLeft = true;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                int ind = rightToLeft ? j : n-j-1;
+                ans.push_back(matrix[i][ind]);
+            }
+            rightToLeft = !rightToLeft;
+        }
+        return ans;
+    }
+};
