@@ -1,0 +1,22 @@
+GFG Link : https://www.geeksforgeeks.org/problems/check-if-string-is-rotated-by-two-places-1587115620/1
+
+class Solution
+{
+    public:
+    string rotateString(string str,int n){
+        n = n % str.length();
+        reverse(str.begin(),str.begin()+n);
+        reverse(str.begin()+n,str.end());
+        reverse(str.begin(),str.end());
+        return str;
+    }
+    bool isRotated(string str1, string str2)
+    {
+        string s1 = rotateString(str1,2);
+        string s2 = rotateString(str1,str1.length()-2);
+        if(str2==s1 || str2==s2)
+            return true;
+        return false;
+    }
+
+};
