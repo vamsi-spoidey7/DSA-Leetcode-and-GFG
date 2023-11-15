@@ -1,0 +1,54 @@
+GFG Link : https://www.geeksforgeeks.org/problems/better-string/1
+
+Brute 
+
+class Solution {
+  public:
+    void generateSubsequence(string &str,int ind,string current,unordered_set<string> &result){
+        if(ind==str.length()){
+            result.insert(current);
+            return;
+        }
+        generateSubsequence(str,ind+1,current+str[ind],result);
+        generateSubsequence(str,ind+1,current,result);
+    }
+    int generateAllSubsequences(string &str){
+        unordered_set<string> hashSet;
+        generateSubsequence(str,0,"",hashSet);
+        return hashSet.size();
+    }
+    string betterString(string str1, string str2) {
+        int n1 = generateAllSubsequences(str1);
+        int n2 = generateAllSubsequences(str2);
+        if(n1>=n2)
+            return str1;
+        return str2;
+    }
+};
+
+Optimal 
+
+class Solution {
+  public:
+    int countDistinctSubsequences(string &str){
+        unordered_map<char,int> mp;
+        int n = str.length();
+        vector<int> dp(n+1);
+        dp[0] = 1;
+        for(int i=1;i<=n;i++){
+            dp[i] = 2 * dp[i-1];
+            if(mp.find(str[i-1])!=mp.end()){
+                dp[i] = dp[i] - dp[mp[str[i-1]]-1];
+            }
+            mp[str[i-1]] = i;
+        }
+        return dp[n];
+    }
+    string betterString(string str1, string str2) {
+        int n1 = countDistinctSubsequences(str1);
+        int n2 = countDistinctSubsequences(str2);
+        if(n1>=n2)
+            return str1;
+        return str2;
+    }
+};
