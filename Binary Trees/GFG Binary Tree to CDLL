@@ -1,0 +1,28 @@
+GFG Link : https://www.geeksforgeeks.org/problems/binary-tree-to-cdll/1
+
+class Solution
+{
+  public:
+    void inorder(Node *curr,Node *&head,Node *&prev){
+        if(curr==NULL) return;
+        inorder(curr->left,head,prev);
+        if(head==NULL){
+            head = curr;
+            prev = curr;
+        }
+        else{
+            prev->right = curr;
+            curr->left = prev;
+        }
+        prev = curr;
+        inorder(curr->right,head,prev);
+    }
+    Node *bTreeToCList(Node *root)
+    {
+        Node *head = NULL, *prev = NULL;
+        inorder(root,head,prev);
+        head->left = prev;
+        prev->right = head;
+        return head;
+    }
+};
