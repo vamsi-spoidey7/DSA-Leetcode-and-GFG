@@ -1,0 +1,29 @@
+GFG Link : https://www.geeksforgeeks.org/problems/intersection-of-two-sorted-linked-lists/1
+
+class Solution
+{
+    public:
+    Node* findIntersection(Node* head1, Node* head2)
+    {
+        Node *head = NULL,*curr=NULL;
+        while(head1!=NULL && head2!=NULL){
+            if(head1->data==head2->data){
+                if(head==NULL){
+                    head = new Node(head1->data);
+                    curr = head;
+                }else{
+                    curr->next = new Node(head1->data);
+                    curr = curr->next;
+                }
+                head1 = head1->next;
+                head2 = head2->next;
+            }
+            else if(head1->data > head2->data){
+                head2 = head2->next;
+            }
+            else
+                head1 = head1->next;
+        }
+        return head;
+    }
+};
