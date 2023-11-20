@@ -1,0 +1,20 @@
+class Solution {
+public:
+    void countSum(TreeNode *node,int sum,int k,int &count,unordered_map<int,int> &mp){
+        if(node==NULL) return;
+        int mod = 1e9+7;
+        sum = (node->val + sum)%mod;
+        count = (count + mp[sum-k])%mod;
+        mp[sum]++;
+        countSum(node->left,sum,k,count,mp);
+        countSum(node->right,sum,k,count,mp);
+        mp[sum]--;
+    }
+    int pathSum(TreeNode* root, int targetSum) {
+        unordered_map<int,int> mp;
+        mp[0] = 1;
+        int count = 0;
+        countSum(root,0,targetSum,count,mp);
+        return count;
+    }
+};
