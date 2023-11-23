@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool isArithmetic(vector<int> &nums){
+        if(nums.size()<2) return false;
+        int diff =nums[1]-nums[0];
+        for(int i=2;i<nums.size();i++){
+            if(nums[i]-nums[i-1]!=diff)
+                return false;
+        }
+        return true;
+    }
+    vector<int> makeArithmetic(int l,int r,vector<int> &nums){
+        vector<int> temp;
+        temp.insert(temp.end(),nums.begin()+l,nums.begin()+r+1);
+        sort(temp.begin(),temp.end());
+        return temp;
+    }
+    vector<bool> checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
+        vector<bool> ans;
+        for(int i=0;i<l.size();i++){
+            vector<int> temp = makeArithmetic(l[i],r[i],nums);
+            ans.push_back(isArithmetic(temp));
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    bool isArithmetic(vector<int> &nums, int l, int r) {
+        int minE = INT_MAX;
+        int maxE = INT_MIN;
+        unordered_set<int> s;
+        for (int i = l; i <= r; i++) {
+            minE = min(minE, nums[i]);
+            maxE = max(maxE, nums[i]);
+            s.insert(nums[i]);
+        }
+        int n = r - l + 1;
+        if((maxE - minE) % (n - 1) != 0) return false;
+        int diff = (maxE - minE) / (n - 1);
+        for(int i=1;i<=n;i++){
+            int curr = minE + (i-1)*diff;
+            if(s.find(curr)==s.end())
+                return false;
+        }
+        return true;
+    }
+    vector<bool> checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
+        vector<bool> ans;
+        for(int i=0;i<l.size();i++){
+            ans.push_back(isArithmetic(nums,l[i],r[i]));
+        }
+        return ans;
+    }
+};
