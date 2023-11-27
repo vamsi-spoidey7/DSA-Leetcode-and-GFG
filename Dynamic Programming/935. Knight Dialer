@@ -1,0 +1,140 @@
+class Solution {
+public:
+    int solve(int n,int cell,vector<vector<int>> &adj,int mod){
+        if(n==0) return 1;
+        int result = 0;
+        for(int &adjCell:adj[cell]){
+            result = (result+solve(n-1,adjCell,adj,mod))%mod;
+        }
+        return result;
+    }
+    int knightDialer(int n) {
+        int mod = 1e9+7;
+        vector<vector<int>> adj = {
+            {4,6},
+            {6,8},
+            {7,9},
+            {4,8},
+            {3,9,0},
+            {},
+            {0,1,7},
+            {2,6},
+            {1,3},
+            {2,4}
+        };
+        int result = 0;
+        for(int cell=0;cell<=9;cell++){
+            result = (result+solve(n-1,cell,adj,mod))%mod;
+        }
+        return result;
+    }
+};
+
+
+class Solution {
+public:
+    int solve(int n,int cell,vector<vector<int>> &adj,int mod,vector<vector<int>> &dp){
+        if(n==0) return 1;
+        if(dp[n][cell]!=-1) return dp[n][cell];
+        int result = 0;
+        for(int &adjCell:adj[cell]){
+            result = (result+solve(n-1,adjCell,adj,mod,dp))%mod;
+        }
+        return dp[n][cell] = result;
+    }
+    int knightDialer(int n) {
+        int mod = 1e9+7;
+        vector<vector<int>> adj = {
+            {4,6},
+            {6,8},
+            {7,9},
+            {4,8},
+            {3,9,0},
+            {},
+            {0,1,7},
+            {2,6},
+            {1,3},
+            {2,4}
+        };
+        vector<vector<int>> dp(n+1,vector<int>(10,-1));
+        int result = 0;
+        for(int cell=0;cell<=9;cell++){
+            result = (result+solve(n-1,cell,adj,mod,dp))%mod;
+        }
+        return result;
+    }
+};
+
+
+class Solution {
+public:
+    int knightDialer(int n) {
+        int mod = 1e9+7;
+        vector<vector<int>> adj = {
+            {4,6},
+            {6,8},
+            {7,9},
+            {4,8},
+            {3,9,0},
+            {},
+            {0,1,7},
+            {2,6},
+            {1,3},
+            {2,4}
+        };
+        vector<vector<int>> dp(n,vector<int>(10));
+        for(int cell=0;cell<=9;cell++)
+            dp[0][cell] = 1;
+        for(int i=1;i<n;i++){
+            for(int cell=0;cell<=9;cell++){
+                int result = 0;
+                for(int &adjCell:adj[cell]){
+                    result = (result+dp[i-1][adjCell])%mod;
+                }
+                dp[i][cell] = result;
+            }
+        }
+        int result = 0;
+        for(int cell=0;cell<=9;cell++){
+            result = (result+dp[n-1][cell])%mod;
+        }
+        return result;
+    }
+};
+
+
+class Solution {
+public:
+    int knightDialer(int n) {
+        int mod = 1e9+7;
+        vector<vector<int>> adj = {
+            {4,6},
+            {6,8},
+            {7,9},
+            {4,8},
+            {3,9,0},
+            {},
+            {0,1,7},
+            {2,6},
+            {1,3},
+            {2,4}
+        };
+        vector<int> prev(10,1);
+        for(int i=1;i<n;i++){
+            vector<int> curr(10);
+            for(int cell=0;cell<=9;cell++){
+                int result = 0;
+                for(int &adjCell:adj[cell]){
+                    result = (result+prev[adjCell])%mod;
+                }
+                curr[cell] = result;
+            }
+            prev = curr;
+        }
+        int result = 0;
+        for(int cell=0;cell<=9;cell++){
+            result = (result+prev[cell])%mod;
+        }
+        return result;
+    }
+};
